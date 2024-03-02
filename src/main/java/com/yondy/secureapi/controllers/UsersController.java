@@ -4,7 +4,6 @@ import com.yondy.secureapi.dto.AuthenticatedUserResponse;
 import com.yondy.secureapi.dto.AuthenticatedVIDUserResponse;
 import com.yondy.secureapi.dto.OauthUserInfo;
 import com.yondy.secureapi.dto.UnauthenticatedUserResponse;
-
 import com.yondy.secureapi.services.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -53,13 +52,14 @@ public class UsersController {
 
     @GetMapping("/vendors/{vid}")
     @PreAuthorize("authentication.credentials.claims['cognito:groups'].contains('VENDOR')")
-    public ResponseEntity<AuthenticatedVIDUserResponse> vendor(JwtAuthenticationToken jwtAuthenticationToken, @PathVariable String vid){
+    public ResponseEntity<AuthenticatedVIDUserResponse> vendor(JwtAuthenticationToken jwtAuthenticationToken, @PathVariable String vid) {
         OauthUserInfo oauthUserInfo = userInfoService.getUserInfo(jwtAuthenticationToken);
-        if(oauthUserInfo.vid().isBlank() || !oauthUserInfo.vid().equals(vid)) {
+        if (oauthUserInfo.vid().isBlank() || !oauthUserInfo.vid().equals(vid)) {
             return ResponseEntity.status(403).build();
         }
         return ResponseEntity.ok(new AuthenticatedVIDUserResponse(SPECIFIC_VENDOR_MESSAGE, oauthUserInfo.vid(), oauthUserInfo.fullName(), parseAuthorities(jwtAuthenticationToken)));
     }
+
     private static List<String> parseAuthorities(JwtAuthenticationToken jwtAuthenticationToken) {
         return jwtAuthenticationToken.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
     }

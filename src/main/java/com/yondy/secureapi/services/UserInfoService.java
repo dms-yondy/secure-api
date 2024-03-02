@@ -17,8 +17,8 @@ public class UserInfoService {
     private String userInfoEndpointUri;
 
     public OauthUserInfo getUserInfo(JwtAuthenticationToken token) {
-       return restClient.get().uri(userInfoEndpointUri)
-               .header("Authorization", "Bearer " + token.getToken().getTokenValue())
-               .retrieve().body(OauthUserInfo.class);
+        return restClient.get().uri(userInfoEndpointUri)
+                .header("Authorization", "Bearer " + token.getToken().getTokenValue())
+                .retrieve().body(OauthUserInfo.class);
     }
 }
