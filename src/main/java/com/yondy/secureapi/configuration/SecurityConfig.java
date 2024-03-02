@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain unauthenticatedUserChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests.requestMatchers("/users/unauthenticated").permitAll()
                         .anyRequest().authenticated())
